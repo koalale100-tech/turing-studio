@@ -497,6 +497,12 @@ const ToolIcon = ({ name, color }) => {
 
 // ─── ABOUT VIEW ───────────────────────────────────────────────────────────────
 function AProposView({ theme, openFeedback, isMobile }) {
+  const [rgpdOpen, setRgpdOpen] = useState(false);
+
+  const h2Style = { fontFamily: "'Fraunces', serif", fontSize: '20px', fontWeight: 400, color: theme.text, marginBottom: '14px', fontVariantLigatures: 'none' };
+  const pStyle = { fontSize: '14px', lineHeight: 1.75, color: theme.text, margin: '0 0 10px' };
+  const sectionStyle = { marginBottom: '32px', paddingBottom: '32px', borderBottom: `1px solid ${theme.border}` };
+
   return (
     <div style={{ maxWidth: '740px', margin: '0 auto' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: theme.textMuted, marginBottom: '28px' }}>
@@ -510,16 +516,18 @@ function AProposView({ theme, openFeedback, isMobile }) {
           <p style={{ fontSize: '13px', color: theme.textMuted, margin: 0, fontStyle: 'italic' }}>Spécialisation innovation, communication et marketing digital</p>
         </div>
       </div>
-      <div style={{ marginBottom: '32px', paddingBottom: '32px', borderBottom: `1px solid ${theme.border}` }}>
-        <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: '20px', fontWeight: 400, color: theme.text, marginBottom: '14px', fontVariantLigatures: 'none' }}>Contexte du livre blanc</h2>
-        <p style={{ fontSize: '15px', lineHeight: 1.75, color: theme.text, margin: '0 0 14px' }}>Ce livre blanc a été produit dans le cadre du Master à l'École Supérieure de la Publicité de Lyon, en clôture d'un cursus spécialisé en innovation, communication et marketing digital.</p>
-        <p style={{ fontSize: '15px', lineHeight: 1.75, color: theme.text, margin: '0 0 14px' }}>La question de départ est simple : comment les équipes de communication peuvent-elles produire du contenu YouTube à cadence soutenue sans sacrifier leur authenticité de marque ? Une tension structurelle que les outils d'IA rendent à la fois plus aiguë et, paradoxalement, plus soluble.</p>
-        <p style={{ fontSize: '15px', lineHeight: 1.75, color: theme.text, margin: 0 }}>Le livre blanc couvre l'environnement YouTube en 2026, la science de l'attention et de la rétention, les outils d'automatisation disponibles, le facteur humain irréductible, et une méthodologie hybride opérationnelle. 54 sources académiques, sectorielles et institutionnelles sont mobilisées.</p>
+
+      <div style={sectionStyle}>
+        <h2 style={h2Style}>Contexte du livre blanc</h2>
+        <p style={pStyle}>Ce livre blanc a été produit dans le cadre du Master à l'École Supérieure de la Publicité de Lyon, en clôture d'un cursus spécialisé en innovation, communication et marketing digital.</p>
+        <p style={pStyle}>La question de départ est simple : comment les équipes de communication peuvent-elles produire du contenu YouTube à cadence soutenue sans sacrifier leur authenticité de marque ?</p>
+        <p style={{ ...pStyle, margin: 0 }}>Le livre blanc couvre l'environnement YouTube en 2026, la science de l'attention et de la rétention, les outils d'automatisation disponibles, le facteur humain irréductible, et une méthodologie hybride opérationnelle. 54 sources académiques, sectorielles et institutionnelles sont mobilisées.</p>
       </div>
-      <div style={{ marginBottom: '32px', paddingBottom: '32px', borderBottom: `1px solid ${theme.border}` }}>
-        <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: '20px', fontWeight: 400, color: theme.text, marginBottom: '14px', fontVariantLigatures: 'none' }}>Méthodologie</h2>
-        <p style={{ fontSize: '15px', lineHeight: 1.75, color: theme.text, margin: '0 0 20px' }}>La recherche documentaire s'appuie sur trois types de sources : les données officielles des plateformes (YouTube, Nielsen, Médiamétrie), les rapports sectoriels (HubSpot, Wyzowl, Vidyard, Edelman), et la littérature académique en psychologie cognitive, comportement du consommateur et sciences de la communication.</p>
-        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: '10px' }}>
+
+      <div style={sectionStyle}>
+        <h2 style={h2Style}>Méthodologie</h2>
+        <p style={{ ...pStyle, marginBottom: '20px' }}>La recherche documentaire s'appuie sur trois types de sources : les données officielles des plateformes (YouTube, Nielsen, Médiamétrie), les rapports sectoriels (HubSpot, Wyzowl, Vidyard, Edelman), et la littérature académique en psychologie cognitive, comportement du consommateur et sciences de la communication.</p>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: '10px', marginBottom: '20px' }}>
           {[
             { value: '54', label: 'Sources citées', color: '#7F77DD' },
             { value: '7', label: 'Chapitres', color: '#E63946' },
@@ -531,12 +539,15 @@ function AProposView({ theme, openFeedback, isMobile }) {
             </div>
           ))}
         </div>
+        <div style={{ padding: '14px 18px', background: theme.bgSecondary, borderRadius: '0 8px 8px 0', borderLeft: `3px solid ${theme.ocre}` }}>
+          <p style={{ fontSize: '14px', lineHeight: 1.65, color: theme.text, margin: 0 }}>Merci à Michel Beck pour son accompagnement tout au long de ce projet.</p>
+        </div>
       </div>
-      <div style={{ marginBottom: '12px' }}>
-        <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: '20px', fontWeight: 400, color: theme.text, marginBottom: '14px', fontVariantLigatures: 'none' }}>Contact</h2>
+
+      <div style={sectionStyle}>
+        <h2 style={h2Style}>Contact</h2>
         <p style={{ fontSize: '15px', lineHeight: 1.7, color: theme.textMuted, margin: '0 0 18px' }}>Pour toute question sur le livre blanc, une suggestion, ou simplement pour échanger sur le sujet.</p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          {/* LinkedIn */}
           <a href="https://www.linkedin.com/in/bruno-vinet/" target="_blank" rel="noopener noreferrer"
             style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '13px 16px', background: theme.bgElevated, border: `1px solid ${theme.border}`, borderRadius: '10px', textDecoration: 'none', transition: 'border-color 0.15s' }}
             onMouseEnter={e => e.currentTarget.style.borderColor = '#0A66C2'}
@@ -545,26 +556,65 @@ function AProposView({ theme, openFeedback, isMobile }) {
             <div style={{ flex: 1 }}><div style={{ fontSize: '12px', color: theme.textMuted, marginBottom: '1px' }}>LinkedIn</div><div style={{ fontSize: '14px', color: theme.text }}>bruno-vinet</div></div>
             <ChevronRight size={13} style={{ color: theme.textMuted, flexShrink: 0 }} />
           </a>
-
-          {/* Email — ouvre le formulaire de retour */}
           <button onClick={() => openFeedback && openFeedback()}
             style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '13px 16px', background: theme.bgElevated, border: `1px solid ${theme.border}`, borderRadius: '10px', cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit', width: '100%', transition: 'border-color 0.15s' }}
             onMouseEnter={e => e.currentTarget.style.borderColor = theme.accent}
             onMouseLeave={e => e.currentTarget.style.borderColor = theme.border}>
             <div style={{ width: '34px', height: '34px', borderRadius: '8px', background: theme.accent + '20', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><Mail size={16} style={{ color: theme.accent }} /></div>
-            <div style={{ flex: 1 }}><div style={{ fontSize: '12px', color: theme.textMuted, marginBottom: '1px' }}>Email</div><div style={{ fontSize: '14px', color: theme.text }}>bruno.vinet11@gmail.com</div></div>
+            <div style={{ flex: 1 }}><div style={{ fontSize: '12px', color: theme.textMuted, marginBottom: '1px' }}>Email</div><div style={{ fontSize: '14px', color: theme.text }}>Envoyer un message</div></div>
             <ChevronRight size={13} style={{ color: theme.textMuted, flexShrink: 0 }} />
           </button>
-
-          {/* YouTube */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '13px 16px', background: theme.bgElevated, border: `1px solid ${theme.border}`, borderRadius: '10px', opacity: 0.6 }}>
-            <div style={{ width: '34px', height: '34px', borderRadius: '8px', background: '#E6394615', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><Youtube size={16} style={{ color: '#E63946' }} /></div>
-            <div style={{ flex: 1 }}><div style={{ fontSize: '12px', color: theme.textMuted, marginBottom: '1px' }}>Chaîne YouTube</div><div style={{ fontSize: '14px', color: theme.textMuted, fontStyle: 'italic' }}>À venir</div></div>
-          </div>
         </div>
       </div>
-      <div style={{ marginTop: '36px', padding: '16px 20px', background: theme.bgSecondary, borderRadius: '0 10px 10px 0', borderLeft: `3px solid ${theme.ocre}` }}>
-        <p style={{ fontSize: '14px', lineHeight: 1.65, color: theme.text, margin: 0 }}>Merci à Michel Beck pour son accompagnement tout au long de ce projet.</p>
+
+      {/* RGPD */}
+      <div style={sectionStyle}>
+        <h2 style={h2Style}>Politique de confidentialité</h2>
+        <p style={{ fontSize: '13px', color: theme.textMuted, marginBottom: '16px' }}>Conformément au Règlement Général sur la Protection des Données (RGPD, UE 2016/679) et à la loi Informatique et Libertés modifiée.</p>
+
+        {[
+          {
+            title: '1. Responsable du traitement',
+            content: 'Bruno VINET, étudiant en Master à l\'École Supérieure de la Publicité de Lyon. Contact : bruno.vinet11@gmail.com'
+          },
+          {
+            title: '2. Données collectées',
+            content: 'Cette application ne collecte aucune donnée personnelle de manière automatique. Les seules données potentiellement traitées sont celles que vous saisissez volontairement dans le formulaire de contact (adresse email, message) ou dans le Brand Voice Document. Ces données ne sont pas transmises à un serveur tiers ni stockées en base de données.'
+          },
+          {
+            title: '3. Finalités et base légale',
+            content: 'Les données du formulaire de contact sont utilisées uniquement pour répondre à votre demande (base légale : intérêt légitime, art. 6.1.f du RGPD). Le Brand Voice Document est généré et traité localement dans votre navigateur.'
+          },
+          {
+            title: '4. Cookies et traceurs',
+            content: 'Cette application n\'utilise aucun cookie de traçage, cookie publicitaire ou outil d\'analyse comportementale (Google Analytics, Hotjar, etc.). Aucun identifiant persistant n\'est déposé sur votre appareil.'
+          },
+          {
+            title: '5. Hébergement',
+            content: 'L\'application est hébergée sur la plateforme Vercel (Vercel Inc., 340 Pine Street, San Francisco, CA 94104, USA). Les données de navigation transitent par les serveurs Vercel, soumis à des garanties de transfert conformes au RGPD via les clauses contractuelles types (Standard Contractual Clauses).'
+          },
+          {
+            title: '6. Durée de conservation',
+            content: 'Aucune donnée n\'est conservée au-delà de la session de navigation. Les informations saisies dans l\'application sont stockées temporairement dans la mémoire du navigateur et supprimées à la fermeture de l\'onglet.'
+          },
+          {
+            title: '7. Vos droits',
+            content: 'Conformément aux articles 15 à 22 du RGPD, vous disposez d\'un droit d\'accès, de rectification, d\'effacement, de limitation, de portabilité et d\'opposition sur vos données. Pour exercer ces droits, contactez : bruno.vinet11@gmail.com. Vous disposez également du droit d\'introduire une réclamation auprès de la CNIL (Commission Nationale de l\'Informatique et des Libertés) : cnil.fr.'
+          },
+        ].map((item, i) => (
+          <div key={i} style={{ marginBottom: '12px' }}>
+            <button onClick={() => setRgpdOpen(rgpdOpen === i ? null : i)} style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px', background: theme.bgSecondary, border: `1px solid ${theme.border}`, borderRadius: rgpdOpen === i ? '8px 8px 0 0' : '8px', cursor: 'pointer', fontFamily: 'inherit', textAlign: 'left' }}>
+              <span style={{ fontSize: '13px', fontWeight: 500, color: theme.text }}>{item.title}</span>
+              <ChevronRight size={13} style={{ color: theme.textMuted, transform: rgpdOpen === i ? 'rotate(90deg)' : 'none', transition: 'transform 0.15s', flexShrink: 0 }} />
+            </button>
+            {rgpdOpen === i && (
+              <div style={{ padding: '12px 16px', background: theme.bgElevated, border: `1px solid ${theme.border}`, borderTop: 'none', borderRadius: '0 0 8px 8px' }}>
+                <p style={{ fontSize: '13px', lineHeight: 1.7, color: theme.textMuted, margin: 0 }}>{item.content}</p>
+              </div>
+            )}
+          </div>
+        ))}
+        <p style={{ fontSize: '11px', color: theme.textMuted, marginTop: '12px', fontStyle: 'italic' }}>Dernière mise à jour : mai 2026</p>
       </div>
     </div>
   );
@@ -784,7 +834,7 @@ function ToolCard({ tool, phaseColor, theme }) {
 }
 
 // ─── TOOLS VIEW ───────────────────────────────────────────────────────────────
-function ToolsView({ theme }) {
+function ToolsView({ theme, isMobile }) {
   const [activePhase, setActivePhase] = useState('ideation');
   const phaseEmojis = {
     ideation: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} width={16} height={16}><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>,
@@ -809,11 +859,11 @@ function ToolsView({ theme }) {
       </div>
 
       {/* Nav phases */}
-      <div style={{ display: 'flex', gap: '0', marginBottom: '28px', background: theme.bgSecondary, borderRadius: '12px', padding: '4px', border: `1px solid ${theme.border}` }}>
+      <div style={{ display: 'flex', gap: '0', marginBottom: '28px', background: theme.bgSecondary, borderRadius: '12px', padding: '4px', border: `1px solid ${theme.border}`, overflowX: isMobile ? 'auto' : 'visible' }}>
         {WORKFLOW_PHASES.map((p) => {
           const isActive = activePhase === p.id;
           return (
-            <button key={p.id} onClick={() => setActivePhase(p.id)} style={{ flex: 1, padding: '8px 4px', background: isActive ? theme.bgElevated : 'transparent', border: 'none', borderRadius: '9px', cursor: 'pointer', fontFamily: 'inherit', fontSize: '11px', fontWeight: isActive ? 600 : 400, color: isActive ? p.color : theme.textMuted, transition: 'all 0.15s', boxShadow: isActive ? '0 1px 4px rgba(0,0,0,0.08)' : 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', position: 'relative' }}>
+            <button key={p.id} onClick={() => setActivePhase(p.id)} style={{ flex: isMobile ? '0 0 auto' : 1, minWidth: isMobile ? '70px' : 'auto', padding: '8px 4px', background: isActive ? theme.bgElevated : 'transparent', border: 'none', borderRadius: '9px', cursor: 'pointer', fontFamily: 'inherit', fontSize: '11px', fontWeight: isActive ? 600 : 400, color: isActive ? p.color : theme.textMuted, transition: 'all 0.15s', boxShadow: isActive ? '0 1px 4px rgba(0,0,0,0.08)' : 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', position: 'relative' }}>
               <span style={{ color: isActive ? p.color : theme.textMuted, opacity: isActive ? 1 : 0.6 }}>{phaseEmojis[p.id]}</span>
               <span>{p.label}</span>
             </button>
@@ -1198,8 +1248,7 @@ function BVDView({ theme }) {
               </div>
             </div>
             <div id="bvd-print-area" style={{ overflowY: 'auto', padding: '28px 32px' }}>
-              <div style={{ fontFamily: 'Georgia, serif', fontSize: '22px', color: '#1B1B23', marginBottom: '4px' }}>Brand Voice Document</div>
-              <div style={{ fontSize: '12px', color: '#9A9AA8', marginBottom: '28px' }}>Projet Turing Studio · Bruno VINET · mai 2026</div>
+              <div style={{ fontFamily: 'Georgia, serif', fontSize: '22px', color: '#1B1B23', marginBottom: '28px' }}>Brand Voice Document</div>
               {BVD_SECTIONS.map((sec, si) => (
                 <div key={sec.id} style={{ marginBottom: '22px', paddingBottom: '22px', borderBottom: si < BVD_SECTIONS.length - 1 ? '1px solid #E0DACA' : 'none' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
@@ -1323,7 +1372,7 @@ function BVDView({ theme }) {
 }
 
 // ─── QR CODE WIDGET ───────────────────────────────────────────────────────────
-function QRCodeWidget({ url, size = 140, theme }) {
+function QRCodeWidget({ url, size = 140, theme, showDownload = true }) {
   const ref = useRef(null);
   const [ready, setReady] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -1389,7 +1438,7 @@ function QRCodeWidget({ url, size = 140, theme }) {
       <div>
         <div style={{ fontSize: '13px', fontWeight: 600, color: theme.text, marginBottom: '4px' }}>QR code</div>
         <div style={{ fontSize: '12px', color: theme.textMuted, lineHeight: 1.5, marginBottom: '12px' }}>Scannez pour accéder au studio depuis votre téléphone.</div>
-        {ready && (
+        {ready && showDownload && (
           <button onClick={download} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '7px 12px', background: '#C9A961', color: '#1B1B23', border: 'none', borderRadius: '7px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
             <ArrowLeft size={12} style={{ transform: 'rotate(270deg)' }} /> Télécharger
           </button>
@@ -1430,12 +1479,12 @@ function ResumePDFModal({ onClose, theme }) {
         table{width:100%;border-collapse:collapse;font-size:12px;}
         th{padding:8px 12px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#9A9AA8;background:#F9F7F3;border-bottom:2px solid #E0DACA;}
         .insight{font-size:12px;line-height:1.65;color:#1B1B23;padding:10px 14px;background:#F5F1E8;border-radius:6px;border-left:3px solid #E63946;margin-bottom:8px;font-style:italic;}
-        .footer{margin-top:40px;padding-top:16px;border-top:1px solid #E0DACA;font-size:11px;color:#9A9AA8;}
-        @media print{body{padding:24px;}.footer{position:fixed;bottom:16px;}}
+        .footer{display:none;}
+        @media print{body{padding:24px;}.footer{display:none;}
+        @page{margin:16px;}}
       </style></head><body>
 
       <h1>Automatisation & Authenticité YouTube</h1>
-      <div class="meta">Bruno VINET · ESP Lyon · Mai 2026 · Livre blanc</div>
 
       <div class="abstract">
         YouTube est devenu le 2ème moteur de recherche mondial. Pour exister sur la plateforme, les marques font face à une pression de volume incompatible avec les méthodes de production traditionnelles. Ce livre blanc explore comment automatiser intelligemment sans sacrifier l'authenticité de marque — condition première de la fidélisation sur YouTube.
@@ -1468,9 +1517,6 @@ function ResumePDFModal({ onClose, theme }) {
         ['5. Pilotage par les données', 'Suivre 7 métriques clés, planifier des tests de format trimestriels. Les équipes qui testent régulièrement ont une croissance 2,3x supérieure.'],
       ].map(([t, b]) => `<div style="display:flex;gap:14px;margin-bottom:12px;"><div style="font-size:12px;font-weight:700;color:#C9A961;flex-shrink:0;min-width:120px;">${t}</div><div style="font-size:12px;color:#1B1B23;line-height:1.65;">${b}</div></div>`).join('')}
 
-      <div class="footer">
-        Projet Turing Studio · Résumé généré automatiquement · Livre blanc "Automatisation & Authenticité YouTube" · Bruno VINET, mai 2026
-      </div>
       <script>window.onload=()=>window.print();<\/script>
     </body></html>`;
 
@@ -1763,9 +1809,9 @@ function GuideModal({ onClose, theme, userName, setUserName }) {
 // otherwise inputs inside any modal lose focus on every keystroke.
 function ModalWrap({ theme, onClose, children, small }) {
   return (
-    <div style={{ position: 'fixed', inset: 0, background: theme.overlay, zIndex: 200, display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: small ? '15vh' : '12vh' }} onClick={onClose}>
-      <div onClick={e => e.stopPropagation()} style={{ background: theme.bgElevated, borderRadius: '16px', width: '100%', maxWidth: small ? '420px' : '640px', margin: '0 16px', border: `1px solid ${theme.border}`, position: 'relative' }}>
-        <button onClick={onClose} style={{ position: 'absolute', top: '12px', right: '12px', background: 'transparent', border: 'none', cursor: 'pointer', color: theme.textMuted, padding: '6px', borderRadius: '6px', display: 'flex' }}><X size={17} /></button>
+    <div style={{ position: 'fixed', inset: 0, background: theme.overlay, zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }} onClick={onClose}>
+      <div onClick={e => e.stopPropagation()} style={{ background: theme.bgElevated, borderRadius: '16px', width: '100%', maxWidth: small ? '440px' : '660px', maxHeight: '90vh', overflowY: 'auto', border: `1px solid ${theme.border}`, position: 'relative' }}>
+        <button onClick={onClose} style={{ position: 'sticky', top: '12px', float: 'right', marginRight: '12px', background: 'transparent', border: 'none', cursor: 'pointer', color: theme.textMuted, padding: '6px', borderRadius: '6px', display: 'flex', zIndex: 1 }}><X size={17} /></button>
         {children}
       </div>
     </div>
@@ -1986,7 +2032,7 @@ function ProjetTuringShell() {
             </div>
 
             {/* Encart stat */}
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px', padding: '18px 22px', background: theme.bgSecondary, borderRadius: '12px', border: `1px solid ${theme.border}`, marginBottom: '48px' }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px', padding: '18px 22px', background: theme.bgSecondary, borderRadius: '12px', border: `1px solid ${theme.border}`, marginBottom: '48px', flexWrap: 'wrap' }}>
               <div style={{ flexShrink: 0 }}>
                 <div style={{ fontFamily: "'Fraunces', serif", fontSize: '30px', fontWeight: 400, color: chapter.color, lineHeight: 1, fontVariantLigatures: 'none' }}>{chapter.stat}</div>
                 <div style={{ fontSize: '11px', color: theme.textMuted, marginTop: '4px', maxWidth: '100px', lineHeight: 1.35 }}>{chapter.statLabel}</div>
@@ -2206,8 +2252,8 @@ function ProjetTuringShell() {
       `}</style>
 
       {/* Header */}
-      <header style={{ position: 'sticky', top: 0, zIndex: 50, background: theme.bg, borderBottom: `1px solid ${theme.border}`, height: '64px', display: 'flex', alignItems: 'center', padding: '0 16px', gap: '16px', flexShrink: 0 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', minWidth: '200px' }}>
+      <header style={{ position: 'sticky', top: 0, zIndex: 50, background: theme.bg, borderBottom: `1px solid ${theme.border}`, height: '64px', display: 'flex', alignItems: 'center', padding: '0 12px', gap: '8px', flexShrink: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '8px' : '16px', minWidth: isMobile ? 'auto' : '200px' }}>
           <button onClick={() => setSidebarOpen(!sidebarOpen)} style={{ background: 'transparent', border: 'none', color: theme.text, cursor: 'pointer', padding: '9px', borderRadius: '10px', display: 'flex' }}
             onMouseEnter={e => e.currentTarget.style.background = theme.bgSecondary}
             onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
@@ -2215,26 +2261,33 @@ function ProjetTuringShell() {
           </button>
           <Logo />
         </div>
-        <div style={{ flex: 1, maxWidth: '600px', margin: '0 auto' }}>
+        <div style={{ flex: 1, maxWidth: '600px', margin: '0 auto', display: isMobile ? 'none' : 'block' }}>
           <button onClick={() => setSearchOpen(true)} style={{ width: '100%', display: 'flex', alignItems: 'center', background: theme.bgSecondary, border: `1px solid ${theme.border}`, borderRadius: '999px', padding: '9px 18px', gap: '10px', cursor: 'pointer', color: theme.textMuted, fontSize: '14px', fontFamily: 'inherit' }}
             onMouseEnter={e => e.currentTarget.style.borderColor = theme.accent}
             onMouseLeave={e => e.currentTarget.style.borderColor = theme.border}>
-            <Search size={18} /><span style={{ flex: 1, textAlign: 'left' }}>{isMobile ? 'Rechercher...' : 'Rechercher dans le livre blanc...'}</span>
+            <Search size={18} /><span style={{ flex: 1, textAlign: 'left' }}>Rechercher dans le livre blanc...</span>
           </button>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-          <button onClick={() => setDarkMode(!darkMode)} style={{ background: 'transparent', border: 'none', color: theme.text, cursor: 'pointer', padding: '9px', borderRadius: '10px', display: 'flex' }}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
+          {isMobile && (
+            <button onClick={() => setSearchOpen(true)} style={{ background: 'transparent', border: 'none', color: theme.text, cursor: 'pointer', padding: '8px', borderRadius: '10px', display: 'flex' }}>
+              <Search size={20} />
+            </button>
+          )}
+          <button onClick={() => setDarkMode(!darkMode)} style={{ background: 'transparent', border: 'none', color: theme.text, cursor: 'pointer', padding: '8px', borderRadius: '10px', display: 'flex' }}
             onMouseEnter={e => e.currentTarget.style.background = theme.bgSecondary}
             onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
             {darkMode ? <Sun size={20} /> : <Moon size={20} />}
           </button>
-          <button onClick={() => setFeedbackOpen(true)} style={{ background: 'transparent', border: 'none', color: theme.text, cursor: 'pointer', padding: '9px', borderRadius: '10px', display: 'flex', position: 'relative' }}
-            onMouseEnter={e => e.currentTarget.style.background = theme.bgSecondary}
-            onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
-            <MessageCircle size={20} />
-            <span style={{ position: 'absolute', top: '7px', right: '7px', width: '8px', height: '8px', borderRadius: '50%', background: theme.accent, animation: 'pulse 2s ease-in-out infinite' }} />
-          </button>
-          <div ref={avatarRef} style={{ position: 'relative', marginLeft: '8px' }}>
+          {!isMobile && (
+            <button onClick={() => setFeedbackOpen(true)} style={{ background: 'transparent', border: 'none', color: theme.text, cursor: 'pointer', padding: '8px', borderRadius: '10px', display: 'flex', position: 'relative' }}
+              onMouseEnter={e => e.currentTarget.style.background = theme.bgSecondary}
+              onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
+              <MessageCircle size={20} />
+              <span style={{ position: 'absolute', top: '7px', right: '7px', width: '8px', height: '8px', borderRadius: '50%', background: theme.accent, animation: 'pulse 2s ease-in-out infinite' }} />
+            </button>
+          )}
+          <div ref={avatarRef} style={{ position: 'relative', marginLeft: '4px' }}>
             <button onClick={() => setAvatarMenuOpen(!avatarMenuOpen)} style={{ width: '36px', height: '36px', borderRadius: '50%', background: theme.ocre, color: '#1B1B23', border: avatarMenuOpen ? `2px solid ${theme.accent}` : '2px solid transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, fontSize: '13px', cursor: 'pointer', fontFamily: "'Fraunces', serif" }}>
               {userName ? userName.split(/\s+/).filter(Boolean).map(w => w[0]).join('').slice(0, 2).toUpperCase() : 'PT'}
             </button>
@@ -2415,14 +2468,10 @@ function ProjetTuringShell() {
                 </button>
               </>
             ) : (
-              <div style={{ padding: '8px 0' }}>
+              <div style={{ padding: '8px 0', textAlign: 'center' }}>
                 <div style={{ width: '50px', height: '50px', background: '#5C7F6B', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 14px' }}><Check size={24} color="#FFF" /></div>
-                <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: '20px', fontWeight: 400, marginBottom: '7px', fontVariantLigatures: 'none' }}>Message prêt à envoyer</h2>
-                <p style={{ fontSize: '13px', color: theme.textMuted, marginBottom: '16px', lineHeight: 1.6 }}>Votre messagerie devrait s'ouvrir avec le message pré-rempli. Si rien ne s'est passé, le message a été copié dans le presse-papiers. Collez-le dans un nouvel email à :</p>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 14px', background: theme.bgSecondary, border: `1px solid ${theme.border}`, borderRadius: '8px', marginBottom: '14px' }}>
-                  <span style={{ fontSize: '13px', fontWeight: 500, color: theme.text }}>bruno.vinet11@gmail.com</span>
-                  <button onClick={() => { navigator.clipboard.writeText('bruno.vinet11@gmail.com').catch(() => {}); }} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: theme.accent, padding: '2px 6px', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '11px', fontWeight: 600, fontFamily: 'inherit' }}><Copy size={11} /> Copier</button>
-                </div>
+                <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: '20px', fontWeight: 400, marginBottom: '7px', fontVariantLigatures: 'none' }}>Message copié !</h2>
+                <p style={{ fontSize: '13px', color: theme.textMuted, marginBottom: '16px', lineHeight: 1.6 }}>Collez-le dans un nouvel email et envoyez-le.</p>
                 <button onClick={() => { setFeedbackOpen(false); setFeedbackSent(false); setFeedbackEmail(''); setFeedbackMessage(''); }} style={{ fontSize: '13px', color: theme.textMuted, background: 'transparent', border: 'none', cursor: 'pointer', fontFamily: 'inherit', textDecoration: 'underline' }}>Fermer</button>
               </div>
             )}
@@ -2434,10 +2483,10 @@ function ProjetTuringShell() {
       {shareOpen && (
         <ModalWrap theme={theme} onClose={() => setShareOpen(false)} small>
           <div style={{ padding: '30px' }}>
-            <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: '21px', fontWeight: 400, marginBottom: '7px', fontVariantLigatures: 'none' }}>Faire connaître Projet Turing Studio</h2>
+            <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: '21px', fontWeight: 400, marginBottom: '7px', fontVariantLigatures: 'none' }}>Faire connaître Turing Studio</h2>
             <p style={{ fontSize: '13px', color: theme.textMuted, marginBottom: '18px', lineHeight: 1.5 }}>Partagez le livre blanc avec votre réseau.</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '7px', marginBottom: '14px' }}>
-              {[{ icon: Linkedin, label: 'Partager sur LinkedIn', color: '#0A66C2', url: 'https://www.linkedin.com/feed/' }, { icon: Instagram, label: 'Partager sur Instagram', color: '#E4405F', url: 'https://instagram.com' }].map(item => (
+              {[{ icon: Linkedin, label: 'Partager sur LinkedIn', color: '#0A66C2', url: 'https://www.linkedin.com/sharing/share-offsite/?url=https://turing-studio.vercel.app/' }, { icon: Instagram, label: 'Partager sur Instagram', color: '#E4405F', url: 'https://instagram.com' }].map(item => (
                 <a key={item.label} href={item.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '11px', width: '100%', padding: '10px 13px', background: theme.bgSecondary, border: `1px solid ${theme.border}`, borderRadius: '9px', cursor: 'pointer', fontFamily: 'inherit', color: theme.text, fontSize: '13px', fontWeight: 500, textDecoration: 'none' }}
                   onMouseEnter={e => e.currentTarget.style.borderColor = theme.accent}
                   onMouseLeave={e => e.currentTarget.style.borderColor = theme.border}>
@@ -2445,14 +2494,9 @@ function ProjetTuringShell() {
                 </a>
               ))}
             </div>
-            <div style={{ height: '1px', background: theme.border, marginBottom: '13px' }} />
-            <button onClick={() => { navigator.clipboard.writeText('https://projet-turing.com/livre-blanc').catch(() => {}); setLinkCopied(true); setTimeout(() => setLinkCopied(false), 2000); }} style={{ width: '100%', padding: '10px 13px', background: theme.bgSecondary, border: `1px solid ${theme.border}`, borderRadius: '9px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer', fontFamily: 'inherit', color: theme.text, fontSize: '13px', marginBottom: '14px' }}>
-              <span style={{ color: theme.textMuted }}>projet-turing.com/livre-blanc</span>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '5px', color: linkCopied ? '#5C7F6B' : theme.accent, fontWeight: 500 }}>{linkCopied ? <><Check size={12} /> Copié</> : <><Copy size={12} /> Copier</>}</span>
-            </button>
             <div style={{ height: '1px', background: theme.border, marginBottom: '14px' }} />
             <div style={{ padding: '14px 16px', background: theme.bgSecondary, border: `1px solid ${theme.border}`, borderRadius: '10px' }}>
-              <QRCodeWidget url="https://projet-turing.com/livre-blanc" size={120} theme={theme} />
+              <QRCodeWidget url="https://turing-studio.vercel.app/" size={120} theme={theme} showDownload={false} />
             </div>
           </div>
         </ModalWrap>
