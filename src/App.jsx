@@ -2311,11 +2311,6 @@ function ProjetTuringShell() {
                   </button>
                 ))}
                 <div style={{ height: '1px', background: theme.border, margin: '6px 0' }} />
-                <button onClick={() => { setAvatarMenuOpen(false); setShowQuitConfirm(true); }} style={{ display: 'flex', alignItems: 'center', gap: '11px', width: '100%', padding: '9px 11px', background: 'transparent', border: 'none', borderRadius: '8px', cursor: 'pointer', fontFamily: 'inherit', color: theme.text, fontSize: '13px' }}
-                  onMouseEnter={e => e.currentTarget.style.background = theme.bgSecondary}
-                  onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
-                  <LogOut size={15} style={{ color: theme.textMuted }} />Quitter le studio
-                </button>
               </div>
             )}
           </div>
@@ -2505,19 +2500,6 @@ function ProjetTuringShell() {
       )}
 
       {/* Quit confirm modal */}
-      {showQuitConfirm && (
-        <ModalWrap theme={theme} onClose={() => setShowQuitConfirm(false)} small>
-          <div style={{ padding: '30px', textAlign: 'center' }}>
-            <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: '20px', fontWeight: 400, marginBottom: '7px', fontVariantLigatures: 'none' }}>Quitter le studio ?</h2>
-            <p style={{ fontSize: '13px', color: theme.textMuted, marginBottom: '22px', lineHeight: 1.5 }}>Vos progrès de lecture resteront sauvegardés.</p>
-            <div style={{ display: 'flex', gap: '8px' }}>
-              <button onClick={() => setShowQuitConfirm(false)} style={{ flex: 1, padding: '10px', background: theme.bgSecondary, border: `1px solid ${theme.border}`, borderRadius: '8px', fontSize: '13px', fontWeight: 500, cursor: 'pointer', fontFamily: 'inherit', color: theme.text }}>Annuler</button>
-              <button onClick={() => setShowQuitConfirm(false)} style={{ flex: 1, padding: '10px', background: theme.accent, color: '#FFF', border: 'none', borderRadius: '8px', fontSize: '13px', fontWeight: 500, cursor: 'pointer', fontFamily: 'inherit' }}>Quitter</button>
-            </div>
-          </div>
-        </ModalWrap>
-      )}
-
       {/* PDF download modal */}
       {pdfOpen && (
         <ModalWrap theme={theme} onClose={() => setPdfOpen(false)} small>
