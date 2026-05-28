@@ -529,7 +529,7 @@ function AProposView({ theme, openFeedback, isMobile }) {
         <p style={{ ...pStyle, marginBottom: '20px' }}>La recherche documentaire s'appuie sur trois types de sources : les données officielles des plateformes (YouTube, Nielsen, Médiamétrie), les rapports sectoriels (HubSpot, Wyzowl, Vidyard, Edelman), et la littérature académique en psychologie cognitive, comportement du consommateur et sciences de la communication.</p>
         <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: '10px', marginBottom: '20px' }}>
           {[
-            { value: '54', label: 'Sources citées', color: '#7F77DD' },
+            { value: '36', label: 'Sources citées', color: '#7F77DD' },
             { value: '7', label: 'Chapitres', color: '#E63946' },
             { value: '32', label: 'Outils analysés', color: '#C9A961' },
           ].map(stat => (
@@ -675,13 +675,6 @@ function AccueilView({ theme, darkMode, readChapters, pinnedChapters, setActiveS
             </div>
           ) : <span style={{ fontSize: '12px', color: theme.textMuted, fontStyle: 'italic' }}>Aucun chapitre lu pour l'instant.</span>}
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            {onOpenResume && (
-              <button onClick={onOpenResume} style={{ fontSize: '12px', color: '#C9A961', background: 'transparent', border: `1px solid #C9A96133`, borderRadius: '6px', padding: '5px 12px', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '5px' }}
-                onMouseEnter={e => e.currentTarget.style.background = '#C9A96112'}
-                onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
-                <ArrowLeft size={11} style={{ transform: 'rotate(270deg)' }} /> Résumé PDF
-              </button>
-            )}
             <button onClick={() => setActiveSection('chapitres')} style={{ fontSize: '12px', color: theme.accent, background: 'transparent', border: `1px solid ${theme.accent}33`, borderRadius: '6px', padding: '5px 12px', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 500 }}
               onMouseEnter={e => e.currentTarget.style.background = theme.accent + '12'}
               onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
@@ -1834,6 +1827,7 @@ function ProjetTuringShell() {
   const [linkCopied, setLinkCopied] = useState(false);
   const [showQuitConfirm, setShowQuitConfirm] = useState(false);
   const [showResume, setShowResume] = useState(false);
+  const [pdfOpen, setPdfOpen] = useState(false);
   const [showGuide, setShowGuide] = useState(true);
   const guideSeen = useRef(false);
   const handleCloseGuide = useCallback(() => { guideSeen.current = true; setShowGuide(false); }, []);
@@ -1885,6 +1879,7 @@ function ProjetTuringShell() {
       if (e.key === 'Escape') {
         if (searchOpen) { setSearchOpen(false); setSearchQuery(''); }
         else if (feedbackOpen) { setFeedbackOpen(false); setFeedbackSent(false); setFeedbackEmail(''); setFeedbackMessage(''); }
+        else if (pdfOpen) setPdfOpen(false);
         else if (shareOpen) setShareOpen(false);
         else if (showGuide) handleCloseGuide();
         else if (avatarMenuOpen) setAvatarMenuOpen(false);
@@ -2279,6 +2274,13 @@ function ProjetTuringShell() {
             onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
             {darkMode ? <Sun size={20} /> : <Moon size={20} />}
           </button>
+          <button onClick={() => setPdfOpen(true)} style={{ background: 'transparent', border: 'none', color: theme.text, cursor: 'pointer', padding: '8px', borderRadius: '10px', display: 'flex' }}
+            onMouseEnter={e => e.currentTarget.style.background = theme.bgSecondary}
+            onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" width={20} height={20}>
+              <path d="M12 3v13M8 12l4 4 4-4"/><path d="M4 19h16"/>
+            </svg>
+          </button>
           {!isMobile && (
             <button onClick={() => setFeedbackOpen(true)} style={{ background: 'transparent', border: 'none', color: theme.text, cursor: 'pointer', padding: '8px', borderRadius: '10px', display: 'flex', position: 'relative' }}
               onMouseEnter={e => e.currentTarget.style.background = theme.bgSecondary}
@@ -2512,6 +2514,30 @@ function ProjetTuringShell() {
               <button onClick={() => setShowQuitConfirm(false)} style={{ flex: 1, padding: '10px', background: theme.bgSecondary, border: `1px solid ${theme.border}`, borderRadius: '8px', fontSize: '13px', fontWeight: 500, cursor: 'pointer', fontFamily: 'inherit', color: theme.text }}>Annuler</button>
               <button onClick={() => setShowQuitConfirm(false)} style={{ flex: 1, padding: '10px', background: theme.accent, color: '#FFF', border: 'none', borderRadius: '8px', fontSize: '13px', fontWeight: 500, cursor: 'pointer', fontFamily: 'inherit' }}>Quitter</button>
             </div>
+          </div>
+        </ModalWrap>
+      )}
+
+      {/* PDF download modal */}
+      {pdfOpen && (
+        <ModalWrap theme={theme} onClose={() => setPdfOpen(false)} small>
+          <div style={{ padding: '32px', textAlign: 'center' }}>
+            <div style={{ width: '50px', height: '50px', background: theme.accent + '18', border: `1px solid ${theme.accent}33`, borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 18px' }}>
+              <svg viewBox="0 0 24 24" fill="none" stroke={theme.accent} strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" width={22} height={22}>
+                <path d="M12 3v13M8 12l4 4 4-4"/><path d="M4 19h16"/>
+              </svg>
+            </div>
+            <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: '21px', fontWeight: 400, marginBottom: '7px', fontVariantLigatures: 'none' }}>Livre blanc : Version longue</h2>
+            <p style={{ fontSize: '13px', color: theme.textMuted, marginBottom: '24px', lineHeight: 1.7 }}>Pour les plus curieux et littéraires d'entre vous je vous fournis la version longue de ce livre blanc. Moins esthétique mais bien plus détaillée. Profitez-en !</p>
+            <a href="/livre-blanc.pdf" download="Automatisation-Authenticite-YouTube.pdf"
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', width: '100%', padding: '12px', background: theme.accent, color: '#FFF', border: 'none', borderRadius: '10px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', textDecoration: 'none', boxSizing: 'border-box' }}
+              onMouseEnter={e => e.currentTarget.style.opacity = '0.88'}
+              onMouseLeave={e => e.currentTarget.style.opacity = '1'}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" width={15} height={15}>
+                <path d="M12 3v13M8 12l4 4 4-4"/><path d="M4 19h16"/>
+              </svg>
+              Télécharger le PDF
+            </a>
           </div>
         </ModalWrap>
       )}
