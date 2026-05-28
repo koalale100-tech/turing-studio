@@ -1910,6 +1910,12 @@ function ProjetTuringShell() {
   ];
   const navItemsSecondary = [{ id: 'partager', label: 'Partager', icon: Share2, action: () => setShareOpen(true) }];
   const navItemsBottom = [{ id: 'apropos', label: 'À propos', icon: Info }, { id: 'guide', label: 'Guide', icon: Compass, action: handleOpenGuide }];
+  const navItemsMobile = [
+    { id: 'search-m', label: 'Rechercher', icon: Search, action: () => { setSearchOpen(true); setSidebarOpen(false); } },
+    { id: 'pdf-m', label: 'Télécharger le PDF', icon: ArrowLeft, action: () => { setPdfOpen(true); setSidebarOpen(false); }, iconRotate: true },
+    { id: 'dark-m', label: darkMode ? 'Mode clair' : 'Mode sombre', icon: darkMode ? Sun : Moon, action: () => setDarkMode(d => !d) },
+    { id: 'feedback-m', label: 'Envoyer un retour', icon: MessageCircle, action: () => { setFeedbackOpen(true); setSidebarOpen(false); } },
+  ];
 
   const togglePin = (id) => setPinnedChapters(prev => prev.includes(id) ? prev.filter(p => p !== id) : [...prev, id]);
   const markRead = (id) => setReadChapters(prev => prev.includes(id) ? prev : [...prev, id]);
@@ -2353,6 +2359,20 @@ function ProjetTuringShell() {
             <div style={{ height: '1px', background: theme.border, margin: '12px 8px' }} />
             <nav style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
               {navItemsSecondary.map(item => <NavBtn key={item.id} item={item} isActive={false} onClick={item.action} />)}
+              {isMobile && <>
+                <div style={{ height: '1px', background: theme.border, margin: '6px 8px' }} />
+                {navItemsMobile.map(item => {
+                  const Icon = item.icon;
+                  return (
+                    <button key={item.id} onClick={item.action} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 12px', background: 'transparent', border: 'none', borderRadius: '10px', color: theme.textMuted, cursor: 'pointer', fontSize: '14px', fontFamily: 'inherit', fontWeight: 400, width: '100%', textAlign: 'left' }}
+                      onMouseEnter={e => e.currentTarget.style.background = theme.bgSecondary}
+                      onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
+                      <Icon size={19} style={{ flexShrink: 0, marginLeft: '2px', transform: item.iconRotate ? 'rotate(270deg)' : 'none' }} />
+                      <span style={{ flex: 1 }}>{item.label}</span>
+                    </button>
+                  );
+                })}
+              </>}
             </nav>
           </div>
           <div>
