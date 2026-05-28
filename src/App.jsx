@@ -2249,7 +2249,7 @@ function ProjetTuringShell() {
       `}</style>
 
       {/* Header */}
-      <header style={{ position: 'sticky', top: 0, zIndex: 50, background: theme.bg, borderBottom: `1px solid ${theme.border}`, height: '64px', display: 'flex', alignItems: 'center', padding: '0 12px', gap: '8px', flexShrink: 0 }}>
+      <header style={{ position: 'sticky', top: 0, zIndex: 50, background: theme.bg, borderBottom: `1px solid ${theme.border}`, height: '64px', display: 'flex', alignItems: 'center', padding: isMobile ? '0 12px 0 8px' : '0 12px', gap: '8px', flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '8px' : '16px', minWidth: isMobile ? 'auto' : '200px' }}>
           <button onClick={() => setSidebarOpen(!sidebarOpen)} style={{ background: 'transparent', border: 'none', color: theme.text, cursor: 'pointer', padding: '9px', borderRadius: '10px', display: 'flex' }}
             onMouseEnter={e => e.currentTarget.style.background = theme.bgSecondary}
@@ -2258,45 +2258,45 @@ function ProjetTuringShell() {
           </button>
           <Logo />
         </div>
-        <div style={{ flex: 1, maxWidth: '600px', margin: '0 auto', display: isMobile ? 'none' : 'block' }}>
-          <button onClick={() => setSearchOpen(true)} style={{ width: '100%', display: 'flex', alignItems: 'center', background: theme.bgSecondary, border: `1px solid ${theme.border}`, borderRadius: '999px', padding: '9px 18px', gap: '10px', cursor: 'pointer', color: theme.textMuted, fontSize: '14px', fontFamily: 'inherit' }}
-            onMouseEnter={e => e.currentTarget.style.borderColor = theme.accent}
-            onMouseLeave={e => e.currentTarget.style.borderColor = theme.border}>
-            <Search size={18} /><span style={{ flex: 1, textAlign: 'left' }}>Rechercher dans le livre blanc...</span>
-          </button>
-        </div>
+        {!isMobile && (
+          <div style={{ flex: 1, maxWidth: '600px', margin: '0 auto' }}>
+            <button onClick={() => setSearchOpen(true)} style={{ width: '100%', display: 'flex', alignItems: 'center', background: theme.bgSecondary, border: `1px solid ${theme.border}`, borderRadius: '999px', padding: '9px 18px', gap: '10px', cursor: 'pointer', color: theme.textMuted, fontSize: '14px', fontFamily: 'inherit' }}
+              onMouseEnter={e => e.currentTarget.style.borderColor = theme.accent}
+              onMouseLeave={e => e.currentTarget.style.borderColor = theme.border}>
+              <Search size={18} /><span style={{ flex: 1, textAlign: 'left' }}>Rechercher dans le livre blanc...</span>
+            </button>
+          </div>
+        )}
+        {isMobile && <div style={{ flex: 1 }} />}
         <div style={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
-          {isMobile && (
-            <button onClick={() => setSearchOpen(true)} style={{ background: 'transparent', border: 'none', color: theme.text, cursor: 'pointer', padding: '8px', borderRadius: '10px', display: 'flex' }}>
-              <Search size={20} />
-            </button>
-          )}
-          <button onClick={() => setDarkMode(!darkMode)} style={{ background: 'transparent', border: 'none', color: theme.text, cursor: 'pointer', padding: '8px', borderRadius: '10px', display: 'flex' }}
-            onMouseEnter={e => e.currentTarget.style.background = theme.bgSecondary}
-            onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
-            {darkMode ? <Sun size={20} /> : <Moon size={20} />}
-          </button>
-          <button onClick={() => setPdfOpen(true)} style={{ background: 'transparent', border: 'none', color: theme.text, cursor: 'pointer', padding: '8px', borderRadius: '10px', display: 'flex' }}
-            onMouseEnter={e => e.currentTarget.style.background = theme.bgSecondary}
-            onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" width={20} height={20}>
-              <path d="M12 3v13M8 12l4 4 4-4"/><path d="M4 19h16"/>
-            </svg>
-          </button>
           {!isMobile && (
-            <button onClick={() => setFeedbackOpen(true)} style={{ background: 'transparent', border: 'none', color: theme.text, cursor: 'pointer', padding: '8px', borderRadius: '10px', display: 'flex', position: 'relative' }}
-              onMouseEnter={e => e.currentTarget.style.background = theme.bgSecondary}
-              onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
-              <MessageCircle size={20} />
-              <span style={{ position: 'absolute', top: '7px', right: '7px', width: '8px', height: '8px', borderRadius: '50%', background: theme.accent, animation: 'pulse 2s ease-in-out infinite' }} />
-            </button>
+            <>
+              <button onClick={() => setDarkMode(!darkMode)} style={{ background: 'transparent', border: 'none', color: theme.text, cursor: 'pointer', padding: '8px', borderRadius: '10px', display: 'flex' }}
+                onMouseEnter={e => e.currentTarget.style.background = theme.bgSecondary}
+                onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
+                {darkMode ? <Sun size={20} /> : <Moon size={20} />}
+              </button>
+              <button onClick={() => setPdfOpen(true)} style={{ background: 'transparent', border: 'none', color: theme.text, cursor: 'pointer', padding: '8px', borderRadius: '10px', display: 'flex' }}
+                onMouseEnter={e => e.currentTarget.style.background = theme.bgSecondary}
+                onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" width={20} height={20}>
+                  <path d="M12 3v13M8 12l4 4 4-4"/><path d="M4 19h16"/>
+                </svg>
+              </button>
+              <button onClick={() => setFeedbackOpen(true)} style={{ background: 'transparent', border: 'none', color: theme.text, cursor: 'pointer', padding: '8px', borderRadius: '10px', display: 'flex', position: 'relative' }}
+                onMouseEnter={e => e.currentTarget.style.background = theme.bgSecondary}
+                onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
+                <MessageCircle size={20} />
+                <span style={{ position: 'absolute', top: '7px', right: '7px', width: '8px', height: '8px', borderRadius: '50%', background: theme.accent, animation: 'pulse 2s ease-in-out infinite' }} />
+              </button>
+            </>
           )}
-          <div ref={avatarRef} style={{ position: 'relative', marginLeft: '4px' }}>
+          <div ref={avatarRef} style={{ position: 'relative', marginLeft: isMobile ? '0' : '4px' }}>
             <button onClick={() => setAvatarMenuOpen(!avatarMenuOpen)} style={{ width: '36px', height: '36px', borderRadius: '50%', background: theme.ocre, color: '#1B1B23', border: avatarMenuOpen ? `2px solid ${theme.accent}` : '2px solid transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, fontSize: '13px', cursor: 'pointer', fontFamily: "'Fraunces', serif" }}>
               {userName ? userName.split(/\s+/).filter(Boolean).map(w => w[0]).join('').slice(0, 2).toUpperCase() : 'PT'}
             </button>
             {avatarMenuOpen && (
-              <div style={{ position: 'absolute', top: '48px', right: 0, background: theme.bgElevated, border: `1px solid ${theme.border}`, borderRadius: '12px', padding: '8px', minWidth: '236px', boxShadow: '0 8px 24px rgba(0,0,0,0.12)', zIndex: 100 }}>
+              <div style={{ position: 'absolute', top: '48px', right: 0, background: theme.bgElevated, border: `1px solid ${theme.border}`, borderRadius: '12px', padding: '8px', minWidth: '220px', maxWidth: 'calc(100vw - 24px)', boxShadow: '0 8px 24px rgba(0,0,0,0.12)', zIndex: 100 }}>
                 <div style={{ padding: '11px 13px 9px', borderBottom: `1px solid ${theme.border}`, marginBottom: '6px' }}>
                   <div style={{ fontWeight: 500, fontSize: '14px' }}>{userName || 'Projet Turing Studio'}</div>
                   <div style={{ fontSize: '12px', color: theme.textMuted, marginTop: '2px' }}>{readChapters.length} chapitres lus sur 7</div>
