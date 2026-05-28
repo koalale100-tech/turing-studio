@@ -2239,11 +2239,13 @@ function ProjetTuringShell() {
   // stable across re-renders — otherwise inputs inside modals lose focus on every keystroke.
 
   return (
-    <div style={{ minHeight: '100vh', background: theme.bg, color: theme.text, fontFamily: "'Geist', system-ui, sans-serif", display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100vh', background: theme.bg, color: theme.text, fontFamily: "'Geist', system-ui, sans-serif", display: 'flex', flexDirection: 'column', overflowX: 'hidden', width: '100%' }}>
       <style>{`
         * { box-sizing:border-box; margin:0; padding:0; }
+        html, body { overflow-x: hidden; width: 100%; }
         input::placeholder, textarea::placeholder { color:${theme.textMuted}; }
         @keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.4; transform:scale(0.9); } }
+        @keyframes spin { to { transform: rotate(360deg); } }
       `}</style>
 
       {/* Header */}
