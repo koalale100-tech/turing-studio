@@ -2651,7 +2651,20 @@ function ProjetTuringShell() {
                   </p>
                 </div>
                 <button onClick={() => {
-                  navigator.clipboard.writeText("« Si l'on attend d'une machine qu'elle soit infaillible, elle ne peut pas être en même temps intelligente. » — Computing Machinery and Intelligence, 1950").catch(() => {});
+                  const text = "« Si l'on attend d'une machine qu'elle soit infaillible, elle ne peut pas être en même temps intelligente. » — Computing Machinery and Intelligence, 1950";
+                  try {
+                    navigator.clipboard.writeText(text);
+                  } catch {
+                    const ta = document.createElement('textarea');
+                    ta.value = text;
+                    ta.style.position = 'fixed';
+                    ta.style.opacity = '0';
+                    document.body.appendChild(ta);
+                    ta.focus();
+                    ta.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(ta);
+                  }
                 }} style={{ display: 'flex', alignItems: 'center', gap: '5px', background: 'transparent', border: `1px solid #C9A96133`, borderRadius: '6px', padding: '5px 10px', cursor: 'pointer', fontFamily: 'inherit', fontSize: '11px', color: '#C9A961', fontWeight: 500 }}>
                   <Copy size={11} /> Copier la citation
                 </button>
