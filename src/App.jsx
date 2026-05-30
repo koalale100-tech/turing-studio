@@ -1828,6 +1828,11 @@ function ProjetTuringShell() {
   const [showQuitConfirm, setShowQuitConfirm] = useState(false);
   const [showResume, setShowResume] = useState(false);
   const [pdfOpen, setPdfOpen] = useState(false);
+  const [pdfPassword, setPdfPassword] = useState('');
+  const [pdfUnlocked, setPdfUnlocked] = useState(false);
+  const [pdfError, setPdfError] = useState(false);
+  const [easterEggFound, setEasterEggFound] = useState(false);
+  const [showEasterEgg, setShowEasterEgg] = useState(false);
   const [showGuide, setShowGuide] = useState(true);
   const guideSeen = useRef(false);
   const handleCloseGuide = useCallback(() => { guideSeen.current = true; setShowGuide(false); }, []);
@@ -1880,6 +1885,7 @@ function ProjetTuringShell() {
         if (searchOpen) { setSearchOpen(false); setSearchQuery(''); }
         else if (feedbackOpen) { setFeedbackOpen(false); setFeedbackSent(false); setFeedbackEmail(''); setFeedbackMessage(''); }
         else if (pdfOpen) setPdfOpen(false);
+        else if (showEasterEgg) setShowEasterEgg(false);
         else if (shareOpen) setShareOpen(false);
         else if (showGuide) handleCloseGuide();
         else if (avatarMenuOpen) setAvatarMenuOpen(false);
@@ -1921,25 +1927,34 @@ function ProjetTuringShell() {
   const markRead = (id) => setReadChapters(prev => prev.includes(id) ? prev : [...prev, id]);
   const goToChapter = (chapter) => { setReadingChapter(chapter); markRead(chapter.id); };
 
+  const allChaptersRead = readChapters.length === 7;
+  const logoColor = easterEggFound ? '#C9A961' : '#E63946';
+  const logoTextColor = easterEggFound ? '#C9A961' : theme.text;
+
+  const handleLogoClick = () => {
+    if (allChaptersRead && !easterEggFound) {
+      setEasterEggFound(true);
+      setShowEasterEgg(true);
+    } else if (easterEggFound) {
+      setShowEasterEgg(true);
+    }
+  };
+
   const Logo = () => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-      <svg width="32" height="24" viewBox="-2 -1 34 24" fill="none" style={{ flexShrink: 0 }}>
+    <div onClick={handleLogoClick} style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: allChaptersRead ? 'pointer' : 'default', transition: 'transform 0.15s' }}
+      onMouseEnter={e => { if (allChaptersRead) e.currentTarget.style.transform = 'scale(1.04)'; }}
+      onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}>
+      <svg width="32" height="24" viewBox="-2 -1 34 24" fill="none" style={{ flexShrink: 0, filter: easterEggFound ? 'drop-shadow(0 0 6px #C9A96188)' : 'none', transition: 'filter 0.4s' }}>
         <g opacity="0.28">
           <polygon points="13,3 13,19 27,11"
-            fill="#E63946"
-            stroke="#E63946" strokeWidth="3.5"
-            strokeLinejoin="round"
-          />
+            fill={logoColor} stroke={logoColor} strokeWidth="3.5" strokeLinejoin="round"/>
         </g>
         <polygon points="1,3 1,19 15,11"
-          fill="#E63946"
-          stroke="#E63946" strokeWidth="3.5"
-          strokeLinejoin="round"
-        />
+          fill={logoColor} stroke={logoColor} strokeWidth="3.5" strokeLinejoin="round"/>
       </svg>
       <div style={{ display: 'flex', alignItems: 'baseline', gap: '5px', lineHeight: 1 }}>
-        <span style={{ fontFamily: "'Fraunces', serif", fontWeight: 400, fontSize: '20px', letterSpacing: '-0.4px', color: theme.text, fontVariantLigatures: 'none' }}>Turing</span>
-        <span style={{ fontFamily: "'Fraunces', serif", fontWeight: 400, fontSize: '13px', letterSpacing: '-0.1px', color: theme.textMuted, fontVariantLigatures: 'none' }}>Studio</span>
+        <span style={{ fontFamily: "'Fraunces', serif", fontWeight: 400, fontSize: '20px', letterSpacing: '-0.4px', color: logoTextColor, fontVariantLigatures: 'none', transition: 'color 0.4s' }}>Turing</span>
+        <span style={{ fontFamily: "'Fraunces', serif", fontWeight: 400, fontSize: '13px', letterSpacing: '-0.1px', color: easterEggFound ? '#C9A96199' : theme.textMuted, fontVariantLigatures: 'none', transition: 'color 0.4s' }}>Studio</span>
       </div>
     </div>
   );
@@ -2522,9 +2537,9 @@ function ProjetTuringShell() {
       )}
 
       {/* Quit confirm modal */}
-      {/* PDF download modal */}
+      {/* PDF download modal — protégé par mot de passe */}
       {pdfOpen && (
-        <ModalWrap theme={theme} onClose={() => setPdfOpen(false)} small>
+        <ModalWrap theme={theme} onClose={() => { setPdfOpen(false); setPdfPassword(''); setPdfError(false); }} small>
           <div style={{ padding: '32px', textAlign: 'center' }}>
             <div style={{ width: '50px', height: '50px', background: theme.accent + '18', border: `1px solid ${theme.accent}33`, borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 18px' }}>
               <svg viewBox="0 0 24 24" fill="none" stroke={theme.accent} strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" width={22} height={22}>
@@ -2532,18 +2547,129 @@ function ProjetTuringShell() {
               </svg>
             </div>
             <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: '21px', fontWeight: 400, marginBottom: '7px', fontVariantLigatures: 'none' }}>Livre blanc : Version longue</h2>
-            <p style={{ fontSize: '13px', color: theme.textMuted, marginBottom: '24px', lineHeight: 1.7 }}>Pour les plus curieux et littéraires d'entre vous je vous fournis la version longue de ce livre blanc. Moins esthétique mais bien plus détaillée. Profitez-en !</p>
-            <a href="/livre-blanc.pdf" download="Automatisation-Authenticite-YouTube.pdf"
-              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', width: '100%', padding: '12px', background: theme.accent, color: '#FFF', border: 'none', borderRadius: '10px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', textDecoration: 'none', boxSizing: 'border-box' }}
-              onMouseEnter={e => e.currentTarget.style.opacity = '0.88'}
-              onMouseLeave={e => e.currentTarget.style.opacity = '1'}>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" width={15} height={15}>
-                <path d="M12 3v13M8 12l4 4 4-4"/><path d="M4 19h16"/>
-              </svg>
-              Télécharger le PDF
-            </a>
+            <p style={{ fontSize: '13px', color: theme.textMuted, marginBottom: '20px', lineHeight: 1.7 }}>Pour les plus curieux et littéraires d'entre vous je vous fournis la version longue de ce livre blanc. Moins esthétique mais bien plus détaillée. Profitez-en !</p>
+
+            {/* Indices */}
+            <div style={{ padding: '12px 16px', background: theme.bgSecondary, borderRadius: '10px', marginBottom: '20px', textAlign: 'left', border: `1px solid ${theme.border}` }}>
+              <div style={{ fontSize: '10px', fontWeight: 700, color: '#C9A961', textTransform: 'uppercase', letterSpacing: '0.7px', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <svg viewBox="0 0 16 16" fill="none" stroke="#C9A961" strokeWidth={1.5} width={12} height={12}><circle cx="8" cy="8" r="6"/><path d="M8 5v4M8 11v.5"/></svg>
+                Accès restreint
+              </div>
+              <p style={{ fontSize: '12px', color: theme.textMuted, lineHeight: 1.7, margin: 0 }}>
+                Ce contenu est réservé aux lecteurs les plus attentifs. Un code d'accès est nécessaire. Chaque chapitre compte pour débloquer le Turing Play Button. Et gardez l'oeil ouvert ;)
+              </p>
+            </div>
+
+            {!pdfUnlocked ? (
+              <>
+                <div style={{ display: 'flex', gap: '8px', marginBottom: pdfError ? '8px' : '0' }}>
+                  <input
+                    type="password"
+                    value={pdfPassword}
+                    onChange={e => { setPdfPassword(e.target.value); setPdfError(false); }}
+                    onKeyDown={e => {
+                      if (e.key === 'Enter') {
+                        if (pdfPassword.trim() === 'Authenti-tech') { setPdfUnlocked(true); setPdfError(false); }
+                        else setPdfError(true);
+                      }
+                    }}
+                    placeholder="Code d'accès..."
+                    style={{ flex: 1, padding: '10px 14px', background: theme.bg, border: `1px solid ${pdfError ? theme.accent : theme.border}`, borderRadius: '8px', fontSize: '13px', color: theme.text, fontFamily: 'inherit', outline: 'none', transition: 'border-color 0.15s' }}
+                  />
+                  <button onClick={() => {
+                    if (pdfPassword.trim() === 'Authenti-tech') { setPdfUnlocked(true); setPdfError(false); }
+                    else setPdfError(true);
+                  }} style={{ padding: '10px 16px', background: theme.accent, color: '#fff', border: 'none', borderRadius: '8px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
+                    Valider
+                  </button>
+                </div>
+                {pdfError && <p style={{ fontSize: '12px', color: theme.accent, marginTop: '6px', textAlign: 'left' }}>Code incorrect. Cherchez encore...</p>}
+              </>
+            ) : (
+              <a href="/livre-blanc.pdf" download="Automatisation-Authenticite-YouTube.pdf"
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', width: '100%', padding: '12px', background: '#5C7F6B', color: '#FFF', border: 'none', borderRadius: '10px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', textDecoration: 'none', boxSizing: 'border-box' }}
+                onMouseEnter={e => e.currentTarget.style.opacity = '0.88'}
+                onMouseLeave={e => e.currentTarget.style.opacity = '1'}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" width={15} height={15}>
+                  <path d="M12 3v13M8 12l4 4 4-4"/><path d="M4 19h16"/>
+                </svg>
+                Télécharger
+              </a>
+            )}
           </div>
         </ModalWrap>
+      )}
+
+      {/* Easter egg — Turing Play Button */}
+      {showEasterEgg && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(27,27,35,0.82)', zIndex: 300, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px', backdropFilter: 'blur(6px)' }}
+          onClick={() => setShowEasterEgg(false)}>
+          <div onClick={e => e.stopPropagation()} style={{ background: theme.bgElevated, borderRadius: '20px', width: '100%', maxWidth: '480px', border: `2px solid #C9A961`, boxShadow: '0 0 60px #C9A96144, 0 24px 64px rgba(0,0,0,0.3)', overflow: 'hidden', position: 'relative' }}>
+
+            {/* Barre dorée */}
+            <div style={{ height: '4px', background: 'linear-gradient(90deg, #C9A961, #F0CC7A, #C9A961)' }} />
+
+            <button onClick={() => setShowEasterEgg(false)} style={{ position: 'absolute', top: '16px', right: '16px', background: 'transparent', border: 'none', cursor: 'pointer', color: theme.textMuted, padding: '6px', borderRadius: '8px', display: 'flex' }}>
+              <X size={17} />
+            </button>
+
+            <div style={{ padding: '36px 36px 32px', textAlign: 'center' }}>
+              {/* Trophée */}
+              <div style={{ marginBottom: '20px' }}>
+                <svg viewBox="0 0 64 64" fill="none" width={64} height={64} style={{ margin: '0 auto', filter: 'drop-shadow(0 4px 12px #C9A96155)' }}>
+                  <path d="M20 8h24v22a12 12 0 0 1-24 0V8z" fill="#C9A961" opacity=".15" stroke="#C9A961" strokeWidth="1.5"/>
+                  <path d="M20 18H10a8 8 0 0 0 10 10M44 18h10a8 8 0 0 1-10 10" stroke="#C9A961" strokeWidth="1.5" strokeLinecap="round"/>
+                  <path d="M32 42v8M24 50h16" stroke="#C9A961" strokeWidth="1.5" strokeLinecap="round"/>
+                  <path d="M26 22l3 3 7-7" stroke="#C9A961" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+
+              <div style={{ fontSize: '10px', fontWeight: 700, color: '#C9A961', textTransform: 'uppercase', letterSpacing: '1.5px', marginBottom: '10px' }}>
+                Succès débloqué
+              </div>
+              <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: '26px', fontWeight: 400, color: '#C9A961', marginBottom: '6px', fontVariantLigatures: 'none', lineHeight: 1.2 }}>
+                Turing Play Button
+              </h2>
+              <p style={{ fontSize: '13px', color: theme.textMuted, marginBottom: '24px', lineHeight: 1.6 }}>
+                Vous avez lu l'intégralité du livre blanc et trouvé le secret. Bravo.
+              </p>
+
+              {/* Citation à envoyer */}
+              <div style={{ padding: '16px 18px', background: '#C9A96112', border: `1px solid #C9A96144`, borderRadius: '12px', marginBottom: '24px', textAlign: 'left' }}>
+                <div style={{ fontSize: '10px', fontWeight: 700, color: '#C9A961', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '10px' }}>
+                  Votre mission
+                </div>
+                <p style={{ fontSize: '13px', color: theme.text, lineHeight: 1.7, marginBottom: '12px' }}>
+                  Envoyez-moi ce message sur LinkedIn pour recevoir le code d'accès à la version longue du livre blanc :
+                </p>
+                <div style={{ padding: '12px 14px', background: theme.bgSecondary, borderRadius: '8px', borderLeft: '3px solid #C9A961', marginBottom: '12px' }}>
+                  <p style={{ fontFamily: "'Caveat', cursive", fontSize: '16px', color: theme.text, lineHeight: 1.6, margin: 0 }}>
+                    « Si l'on attend d'une machine qu'elle soit infaillible, elle ne peut pas être en même temps intelligente. »
+                  </p>
+                  <p style={{ fontSize: '11px', color: theme.textMuted, margin: '6px 0 0', fontStyle: 'italic' }}>
+                    Computing Machinery and Intelligence, 1950
+                  </p>
+                </div>
+                <button onClick={() => {
+                  navigator.clipboard.writeText("« Si l'on attend d'une machine qu'elle soit infaillible, elle ne peut pas être en même temps intelligente. » — Computing Machinery and Intelligence, 1950").catch(() => {});
+                }} style={{ display: 'flex', alignItems: 'center', gap: '5px', background: 'transparent', border: `1px solid #C9A96133`, borderRadius: '6px', padding: '5px 10px', cursor: 'pointer', fontFamily: 'inherit', fontSize: '11px', color: '#C9A961', fontWeight: 500 }}>
+                  <Copy size={11} /> Copier la citation
+                </button>
+              </div>
+
+              {/* Bouton LinkedIn */}
+              <a href="https://www.linkedin.com/in/bruno-vinet/" target="_blank" rel="noopener noreferrer"
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', width: '100%', padding: '13px', background: '#0A66C2', color: '#FFF', borderRadius: '10px', fontSize: '13px', fontWeight: 600, textDecoration: 'none', boxSizing: 'border-box', marginBottom: '10px' }}
+                onMouseEnter={e => e.currentTarget.style.opacity = '0.88'}
+                onMouseLeave={e => e.currentTarget.style.opacity = '1'}>
+                <Linkedin size={16} /> Envoyer sur LinkedIn
+              </a>
+              <button onClick={() => setShowEasterEgg(false)} style={{ width: '100%', padding: '10px', background: 'transparent', border: `1px solid ${theme.border}`, borderRadius: '10px', fontSize: '13px', color: theme.textMuted, cursor: 'pointer', fontFamily: 'inherit' }}>
+                Fermer
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Guide onboarding */}
